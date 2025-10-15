@@ -17,3 +17,4 @@ collections:
   - name: gluster.gluster
   - name: community.crypto
   - name: community.windows
+  - name: community.proxmox
