@@ -18,9 +18,13 @@ additional_build_steps:
   append_base:
     - RUN $PYCMD -m pip install -U pip
   prepend_final:
-    - RUN yum update -y && yum install git wget -y
+    - RUN yum update -y && yum install git wget iputils -y
     - RUN git config --global http.postBuffer 524288000
   append_final:
     - COPY --from=quay.io/ansible/receptor:devel /usr/bin/receptor /usr/bin/receptor
     - RUN mkdir -p /var/run/receptor
     - RUN git lfs install --system
+    # - RUN curl -L https://github.com/containerd/nerdctl/releases/download/v2.1.6/nerdctl-2.1.6-linux-amd64.tar.gz | tar -xz -C /usr/local/bin/ --strip-components=0 nerdctl && chmod +x /usr/local/bin/nerdctl
+    - RUN wget -qO- https://github.com/containerd/containerd/releases/download/v2.0.0/containerd-2.0.0-linux-amd64.tar.gz | tar -C /usr/local -xz
+    - RUN wget -qO- https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.30.0/crictl-v1.30.0-linux-amd64.tar.gz | tar -C /usr/local/bin -xz
+    - RUN curl -L https://github.com/containerd/nerdctl/releases/download/v2.1.6/nerdctl-2.1.6-linux-amd64.tar.gz | tar -xz -C /usr/local/bin/ --strip-components=0 nerdctl && chmod +x /usr/local/bin/nerdctl
